@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -42,8 +43,9 @@ public class User {
   private String password;
 
   
-  @OneToMany(mappedBy = "user")      // Um usuário pode ter várias tasks
-  private List<Task> tasks = new ArrayList<Task>();
+  @OneToMany(mappedBy = "user")
+  @JsonIgnore
+  private List<Task> tasks; 
 
 
   public List<Task> getTasks() { 
