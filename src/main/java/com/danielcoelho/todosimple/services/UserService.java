@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.danielcoelho.todosimple.models.User;
 import com.danielcoelho.todosimple.repositories.UserRepository;
+import com.danielcoelho.todosimple.services.exceptions.DataBindingViolationException;
+import com.danielcoelho.todosimple.services.exceptions.ObjectNotFoundException;
 
 import jakarta.transaction.Transactional;
 import java.util.Optional;
@@ -21,7 +23,7 @@ public class UserService {
 
     Optional<User> user = this.userRepository.findById(id);
 
-    return user.orElseThrow(() -> new RuntimeException( // Caso não localizar, retornar o erro!
+    return user.orElseThrow(() -> new ObjectNotFoundException( // Caso não localizar, retornar o erro!
         "Usuário não encontrado Id: " + id + ", Tipo: " + User.class.getName()));
   }
   
@@ -50,7 +52,7 @@ public class UserService {
     try {
       this.userRepository.deleteById(id);
     } catch (Exception e) {
-      throw new RuntimeException("Não é possível excluir, possui entidades relacionadas");
+      throw new DataBindingViolationException("Não é possível excluir, possui entidades relacionadas");
     }
   }
 }

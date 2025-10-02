@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.danielcoelho.todosimple.repositories.TaskRepository;
+import com.danielcoelho.todosimple.services.exceptions.DataBindingViolationException;
+import com.danielcoelho.todosimple.services.exceptions.ObjectNotFoundException;
 
 import jakarta.transaction.Transactional;
 
@@ -27,7 +29,7 @@ public class TaskService {
 
     Optional<Task> task = this.taskRepository.findById(id);
 
-    return task.orElseThrow(() -> new RuntimeException(
+    return task.orElseThrow(() -> new ObjectNotFoundException(
         "Tarefa não encontrada! Id: " + id + ", Tipo: " + Task.class.getName()));
   }
 
@@ -68,7 +70,7 @@ public class TaskService {
 
     } catch (Exception e) {
 
-      throw new RuntimeException("Não é possível excluir, possui entidades relacionadas");
+      throw new DataBindingViolationException("Não é possível excluir, possui entidades relacionadas");
     }
   }
 }

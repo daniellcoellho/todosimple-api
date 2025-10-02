@@ -11,9 +11,19 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = Task.TABLE_NAME)    //Nome da tabela
+@Table(name = Task.TABLE_NAME) //Nome da tabela
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Task {
   
   public static final String TABLE_NAME = "task"; //Definindo nome da tabela
@@ -33,66 +43,4 @@ public class Task {
   private String description;
 
 
-  public Task() {
-  }
-
-  public Task(Long id, User user, String description) {
-    this.id = id;
-    this.user = user;
-    this.description = description;
-  }
-
-  public Long getId() {
-    return this.id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public User getUser() {
-    return this.user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
-  public String getDescription() {
-    return this.description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public Task id(Long id) {
-    setId(id);
-    return this;
-  }
-
-  public Task user(User user) {
-    setUser(user);
-    return this;
-  }
-
-  public Task description(String description) {
-    setDescription(description);
-    return this;
-  }
-
-  @Override
-  public int hashCode() {
-
-    final int prime = 31;
-    int result = 1;
-
-    result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-
-    return result;
-
-  }
-
-  
-  
 }
