@@ -1,10 +1,19 @@
 package com.danielcoelho.todosimple.models;
 
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.springframework.context.annotation.Profile;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,6 +27,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import com.danielcoelho.todosimple.models.enums.ProfileEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -46,7 +56,7 @@ public class User {
   private String username;
 
   @JsonProperty(access = Access.WRITE_ONLY)
-  @Column(name = "password", length = 35, nullable = false)
+  @Column(name = "password", length = 255, nullable = false)
   @NotBlank(groups = {CreateUser.class, UpdateUser.class })
   @Size(groups = CreateUser.class, min = 5, max = 35)
   private String password;
@@ -54,6 +64,23 @@ public class User {
   
   @OneToMany(mappedBy = "user")
   @JsonProperty(access = Access.WRITE_ONLY)
-  private List<Task> tasks = new ArrayList<Task>(); 
+  private List<Task> tasks = new ArrayList<Task>();
+  
 
+  @ElementCollection(fetch = FetchType.EAGER)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  @CollectionTable(name = "user_profile")
+  @Column(name = "profile", nullable = false)
+  private Set<Integer> profiles = new HashSet<>();
+
+  public Set<ProfileEnum> getProfiles() {
+    return this.profiles.stream()
+        .map(ProfileEnum::toEnum) // converte cada código em ProfileEnum
+        .collect(Collectors.toSet());
+  }
+  
+  public void addProfile(ProfileEnum profileEnum) {
+    this.profiles.add(profileEnum.getCode());
+  }
+  
 }
