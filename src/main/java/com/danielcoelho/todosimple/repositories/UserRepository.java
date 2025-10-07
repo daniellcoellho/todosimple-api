@@ -7,10 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.danielcoelho.todosimple.models.User;
 
 
-import java.util.List;
-
-
-
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
   
