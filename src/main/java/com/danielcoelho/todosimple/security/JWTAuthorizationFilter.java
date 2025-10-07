@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.client.HttpServerErrorException;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
